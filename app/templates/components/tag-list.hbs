@@ -1,0 +1,14 @@
+<ul>
+  <li>
+    {{#link-to 'bookmarks.index'}}
+      All
+    {{/link-to}}
+  </li>
+  {{#each tags as |tag|}}
+    <li>
+      {{#link-to 'bookmarks.filtered' tag}}
+        {{tag}}
+      {{/link-to}}
+    </li>
+  {{/each}}
+</ul>
