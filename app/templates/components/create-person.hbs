@@ -1,0 +1,15 @@
+<form {{action 'createPerson' on='submit'}}>
+  <label for="first-name">First</label>
+  {{input type="text" id="first-name" value=first}}
+
+  <label for="last-name">Last</label>
+  {{input type="text" id="last-name" value=last}}
+
+  <label for="address">Address</label>
+  {{input type="text" id="address" value=address}}
+
+  <label for="phone">Phone</label>
+  {{input type="text" id="phone" value=phone}}
+
+  <button>Submit</button>
+</form>

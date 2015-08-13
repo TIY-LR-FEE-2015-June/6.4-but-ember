@@ -6,6 +6,8 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('create', {path: 'exercise-a'});
+
   this.route('blog', {path: 'exercise-b'}, function() {
     this.route('show', {path: ':id'});
   });
