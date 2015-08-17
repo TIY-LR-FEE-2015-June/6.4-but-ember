@@ -6,23 +6,78 @@ import extend from 'lodash/object/extend';
  * This is the translator between what the
  */
 export default DS.RESTSerializer.extend({
+  /**
+   * Since our API doesn't have an `id` parameter
+   * we need to tell Ember what is a unique parameter that
+   * can be used for model lookup and identification
+   */
   primaryKey: '_id',
 
+  /**
+   * This describes how we translate array or collection data from the server
+   * and into a format that the Ember Data Store will understand
+   * @param  {DS.Store} store
+   * @param  {DS.Model <Constructor>} type
+   * @param  {Array of Object} payload Decoded JSON from the server response
+   */
   extractArray: function(store, type, payload) {
     var data = {};
+    /**
+     * Ember expects a plural version of the model name
+     * as a parameter in the final payload object
+     * So, we'll set that up here.
+     */
     data[`${type.modelName}s`] = payload;
 
+    /**
+     * Now that we've set up the data in the format Ember Data expected
+     * We can use `this._super` to call the inherited version of extractArray
+     * But instead of sending the regular payload, we'll sneak in our
+     * modified `data` variable
+     */
     return this._super(store, type, data);
   },
 
+  /**
+   * This describes how we translate single model data from the server
+   * and into a format that the Ember Data Store will understand
+   * @param  {DS.Store} store
+   * @param  {DS.Model <Constructor>} type
+   * @param  {Array of Object} payload Decoded JSON from the server response
+   */
   extractSingle: function(store, type, payload) {
     var data = {};
+     /**
+     * Ember expects a singular version of the model name
+     * as a parameter in the final payload object
+     * So, we'll set that up here.
+     */
     data[type.modelName] = payload;
 
+    /**
+     * Now that we've set up the data in the format Ember Data expected
+     * We can use `this._super` to call the inherited version of extractSingle
+     * But instead of sending the regular payload, we'll sneak in our
+     * modified `data` variable
+     */
     return this._super(store, type, data);
   },
 
+  /**
+   * This describes how we modify the data before sending it
+   * back to the original server
+   * @param  {Object} hash      Modify this object to change the server request
+   * @param  {DS.Model <Constructor>} typeClass
+   * @param  {DS.Model <Instance>} snapshot  The model we're trying to save
+   * @param  {Object} options
+   */
   serializeIntoHash: function(hash, typeClass, snapshot, options) {
+    /**
+     * Since hash has to be modified and not replaced,
+     * we use lodash's `extend` function to modify it with
+     * all of the parameters from the result of serializing
+     * our model (turning it into JSON)
+     */
     extend(hash, this.serialize(snapshot, options));
   }
 });
