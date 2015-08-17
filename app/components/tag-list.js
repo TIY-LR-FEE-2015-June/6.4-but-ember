@@ -5,8 +5,10 @@ export default Ember.Component.extend({
 
   tags: Ember.computed('bookmarks', 'bookmarks.@each', function() {
     return this.get('bookmarks').reduce(function(prev, current) {
-      if (prev.indexOf(current.tag) === -1) {
-        prev.push(current.tag);
+      var tag = current.get('tag');
+
+      if (prev.indexOf(tag) === -1) {
+        prev.push(tag);
       }
 
       return prev;

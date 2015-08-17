@@ -1,1 +1,6 @@
-{{outlet}}
+<form {{action 'save' model on='submit'}}>
+  {{input type='text' value=model.link placeholder="link"}}
+  {{input type='text' value=model.tag placeholder="tag"}}
+
+  <button>Submit</button>
+</form>
