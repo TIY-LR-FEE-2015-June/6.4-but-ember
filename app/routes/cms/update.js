@@ -1,25 +1,31 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model: function(params) {
-    return this.modelFor('cms').find(function(model) {
-      return model._id === params.id;
-    });
-  },
-
   actions: {
     save: function(data) {
-      var id = this.modelFor('cms.update')._id;
-      Ember.$.ajax({
-        url: 'http://tiny-lr.herokuapp.com/collections/rt-cms/' + id,
-        method: 'PUT',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-      }).then(() => {
-        Ember.setProperties(this.modelFor('cms.update'), data);
+      /**
+       * Ideally we could do this... Using Ember Data
+       * But the Tiny LR Server is weird
+       */
+      var blog = this.modelFor('cms.update');
+      blog.setProperties(data);
+      blog.save().then(() => {this.transitionTo('cms.index');});
 
-        this.transitionTo('cms.index');
-      });
+      /**
+       * Before Ember Data
+       * Updates a model and updates the model record
+       * @return {[type]}    [description]
+       */
+      // Ember.$.ajax({
+      //   url: 'http://tiny-lr.herokuapp.com/collections/rt-blog/' + id,
+      //   method: 'PUT',
+      //   data: JSON.stringify(data),
+      //   contentType: 'application/json',
+      // }).then(() => {
+      //   Ember.setProperties(this.modelFor('cms.update'), data);
+
+      //   this.transitionTo('cms.index');
+      // });
     }
   }
 });

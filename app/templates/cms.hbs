@@ -1,11 +1,13 @@
 <ul>
   <li>{{#link-to 'cms.create'}}+ New{{/link-to}}</li>
   {{#each model as |post|}}
-    <li>
-      {{#link-to 'cms.show' post._id}}
-        {{post.title}}
-      {{/link-to}}
-    </li>
+    {{#unless post.isNew}}
+      <li>
+        {{#link-to 'cms.show' post}}
+          {{post.title}}
+        {{/link-to}}
+      </li>
+      {{/unless}}
   {{/each}}
 </ul>
 

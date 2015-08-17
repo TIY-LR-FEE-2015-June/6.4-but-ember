@@ -3,7 +3,7 @@
 <p>{{model.body}}</p>
 
 <div class="actions">
-  {{#link-to 'cms.update' model._id}}
+  {{#link-to 'cms.update' model}}
     edit
   {{/link-to}}
   <a href="#" {{action 'delete' model}}>
